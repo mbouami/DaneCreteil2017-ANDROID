@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">DaneCreteil2017</string>
+    <string name="title_activity_animateurs">Liste des Animateurs</string>
+    <string name="title_activity_etablissements">Liste des Etablissements</string>
+    <string name="search_hint">Rechercher un animateur</string>
+    <string name="search_label_animateur">RechercherAnimateur</string>
+    <string name="heading_my_animateurs">Les Animateurs</string>
+    <string name="heading_my_etablissements">Les Etablissements</string>
+    <string name="menu_logout">Quitter</string>
+</resources>

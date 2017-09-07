@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "407722288507",
+    "firebase_url": "https://danecreteil-801d5.firebaseio.com",
+    "project_id": "danecreteil-801d5",
+    "storage_bucket": "danecreteil-801d5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:407722288507:android:b653b1f0dbb123e6",
+        "android_client_info": {
+          "package_name": "com.bouami.danecreteil2017"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "407722288507-32rcimch2faivqk8m5gqpsch0sg3gh28.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA18TU2FXCpYmBOXTcTyXAGtYFFUVC57yE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
