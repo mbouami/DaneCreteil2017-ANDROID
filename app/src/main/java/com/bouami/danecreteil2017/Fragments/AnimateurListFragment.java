@@ -68,13 +68,13 @@ public abstract class AnimateurListFragment extends Fragment {
         searchview.setOnQueryTextListener(new SearchView.OnQueryTextListener (){
             @Override
             public boolean onQueryTextSubmit(String query) {
-                Log.d(TAG, "setOnQueryTextListener: onQueryTextSubmit " + query);
+//                Log.d(TAG, "setOnQueryTextListener: onQueryTextSubmit " + query);
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                Log.d(TAG, "setOnQueryTextListener: onQueryTextChange " + newText);
+//                Log.d(TAG, "setOnQueryTextListener: onQueryTextChange " + newText);
                 Query animateurssearchQuery = getQuerySearchByNom(mDatabase,newText);
                 mAdapter = new AnimateursRecycler(Animateur.class,R.layout.item_animateur,AnimateurViewHolder.class,animateurssearchQuery);
                 mRecycler.setAdapter(mAdapter);

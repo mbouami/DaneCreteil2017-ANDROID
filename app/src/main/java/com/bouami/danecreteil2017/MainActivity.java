@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.TableLayout;
 
 import com.bouami.danecreteil2017.Fragments.MyAnimateursFragment;
 import com.bouami.danecreteil2017.Fragments.MyEtablissementsFragment;
@@ -30,7 +31,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Log.d(TAG, "AccueilActivity:");
         // Create the adapter that will return a fragment for each section
         mPagerAdapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
             private final Fragment[] mFragments = new Fragment[] {
@@ -99,29 +99,9 @@ public class MainActivity extends AppCompatActivity {
                 Log.d(TAG, "AccueilActivity: action_logout activé");
                 return true;
             case R.id.animateurrechercher :
-                Log.d(TAG, "AccueilActivity: animateurrechercher activé");
+//                Log.d(TAG, "AccueilActivity: animateurrechercher activé " + ((TabLayout) findViewById(R.id.tabs)).getSelectedTabPosition());
                 return true;
         }
         return super.onOptionsItemSelected(item);
     }
-/*    @Override
-    protected void onPostResume() {
-        super.onPostResume();
-        Button blisteanimateurs = (Button) findViewById(R.id.blisteanimateurs);
-        Button blisteetabs = (Button) findViewById(R.id.blisteetablissements);
-        blisteanimateurs.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), AnimateursActivity.class);
-                startActivity(intent);
-            }
-        });
-        blisteetabs.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), AnimActivity.class);
-                startActivity(intent);
-            }
-        });
-    }*/
 }

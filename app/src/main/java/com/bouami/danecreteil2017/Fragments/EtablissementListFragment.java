@@ -62,41 +62,23 @@ public abstract class EtablissementListFragment extends Fragment {
         super.onCreateOptionsMenu(menu, inflater);
         MenuItem menusearch = menu.findItem(R.id.animateurrechercher);
         SearchView searchview = (SearchView) menusearch.getActionView();
-//        searchView.setIconifiedByDefault(false);
-//        searchview.setOnQueryTextListener(new SearchView.OnQueryTextListener (){
-//
-//            @Override
-//            public boolean onQueryTextSubmit(String query) {
+        searchview.setOnQueryTextListener(new SearchView.OnQueryTextListener (){
+
+            @Override
+            public boolean onQueryTextSubmit(String query) {
 //                Log.d(TAG, "setOnQueryTextListener: onQueryTextSubmit " + query);
-//                return false;
-//            }
-//
-//            @Override
-//            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
 //                Log.d(TAG, "setOnQueryTextListener: onQueryTextChange " + newText);
-//                Query etablissementsQuery = getQuerySearchByNom(mDatabase,newText);
-//                mAdapter = new FirebaseRecyclerAdapter<Etablissement, EtablissementViewHolder>(Etablissement.class, R.layout.item_etablissement,
-//                        EtablissementViewHolder.class, etablissementsQuery) {
-//                    @Override
-//                    protected void populateViewHolder(final EtablissementViewHolder viewHolder, final Etablissement model, final int position) {
-//                        final DatabaseReference etablissementRef = getRef(position);
-//                        final String etablissementKey = etablissementRef.getKey();
-//                        // Bind Post to ViewHolder, setting OnClickListener for the star button
-//                        viewHolder.bindToEtablissement(model, new View.OnClickListener() {
-//                            @Override
-//                            public void onClick(View starView) {
-//                                // Need to write to both places the post is stored
-//                                DatabaseReference globalEtablissementRef = mDatabase.child("etablissements").child(etablissementKey);
-//                                // Run two transactions
-//                                onStarClicked(globalEtablissementRef);
-//                            }
-//                        });
-//                    }
-//                };
-//                mRecycler.setAdapter(mAdapter);
-//                return false;
-//            }
-//        });
+                Query etablissementssearchQuery = getQuerySearchByNom(mDatabase,newText);
+                mAdapter = new EtablissementsRecycler(Etablissement.class,R.layout.item_etablissement,EtablissementViewHolder.class,etablissementssearchQuery);
+                mRecycler.setAdapter(mAdapter);
+                return false;
+            }
+        });
     }
 
     @Nullable

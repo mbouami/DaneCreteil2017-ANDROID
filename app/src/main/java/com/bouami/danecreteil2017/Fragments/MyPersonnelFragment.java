@@ -17,6 +17,12 @@ public class MyPersonnelFragment extends PersonnelListFragment {
         return databaseReference.child("personnel");
     }
 
+    @Override
+    public Query getQuerySearchByNom(DatabaseReference databaseReference, String search) {
+        String elementrecherche = search.toUpperCase();
+        return databaseReference.child("personnel").orderByChild("nom").startAt(elementrecherche).endAt(elementrecherche+"\uf8ff");
+    }
+
 //    @Override
 //    public Query getQueryEtablissement(DatabaseReference databaseReference, String personnelkey) {
 //        Query etab = databaseReference.child("etablissements").orderByChild("personnel/"+personnelkey).equalTo(true);

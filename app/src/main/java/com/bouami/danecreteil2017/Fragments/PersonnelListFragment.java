@@ -7,8 +7,12 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -50,6 +54,31 @@ public abstract class PersonnelListFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        // Do something that differs the Activity's menu here
+        super.onCreateOptionsMenu(menu, inflater);
+        MenuItem menusearch = menu.findItem(R.id.animateurrechercher);
+        SearchView searchview = (SearchView) menusearch.getActionView();
+        searchview.setOnQueryTextListener(new SearchView.OnQueryTextListener (){
+
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+//                Log.d(TAG, "setOnQueryTextListener: onQueryTextSubmit " + query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+//                Log.d(TAG, "setOnQueryTextListener: onQueryTextChange " + newText);
+                Query personnelsearchQuery = getQuerySearchByNom(mDatabase,newText);
+                mAdapter = new PersonnelRecycler(Personnel.class,R.layout.item_personnel,PersonnelViewHolder.class,personnelsearchQuery);
+                mRecycler.setAdapter(mAdapter);
+                return false;
+            }
+        });
     }
 
     @Nullable
@@ -63,24 +92,6 @@ public abstract class PersonnelListFragment extends Fragment {
 
         mRecycler = (RecyclerView) rootView.findViewById(R.id.personnel_list);
         mRecycler.setHasFixedSize(true);
-        mailpersonnel = (FloatingActionButton) rootView.findViewById(R.id.mailpersonnel);
-        mailpersonnel.setVisibility(View.INVISIBLE);
-        mailpersonnel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Prévoire une action pour envoyer un mail à " + personnelselectionne.getNom(), Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-        phonepersonnel = (FloatingActionButton) rootView.findViewById(R.id.phonepersonnel);
-        phonepersonnel.setVisibility(View.INVISIBLE);
-        phonepersonnel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Prévoire une action pour téléphoner à " + personnelselectionne.getNom(), Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
         return rootView;
     }
 
@@ -92,92 +103,10 @@ public abstract class PersonnelListFragment extends Fragment {
         mManager.setReverseLayout(true);
         mManager.setStackFromEnd(true);
         mRecycler.setLayoutManager(mManager);
-        // Set up FirebaseRecyclerAdapter with the Query
         Query personnelQuery = getQuery(mDatabase);
-        mAdapter = new FirebaseRecyclerAdapter<Personnel, PersonnelViewHolder>(Personnel.class, R.layout.item_personnel,
-                PersonnelViewHolder.class, personnelQuery) {
-            @Override
-            protected void populateViewHolder(final PersonnelViewHolder viewHolder, final Personnel model, final int position) {
-                final DatabaseReference personnelRef = getRef(position);
-
-                // Set click listener for the whole post view
-                final String personnelKey = personnelRef.getKey();
-
-                // Bind Post to ViewHolder, setting OnClickListener for the star button
-                viewHolder.bindToPersonnel(model, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View starView) {
-                        // Need to write to both places the post is stored
-                        DatabaseReference globalAnimateurRef = mDatabase.child("personnel").child(personnelKey);
-//                        DatabaseReference userPostRef = mDatabase.child("user-posts").child(model.uid).child(postRef.getKey());
-//                        Query etab = getQueryEtablissement(mDatabase,personnelKey);
-//                        DatabaseReference globalEtablissementRef =  mDatabase.child("etablissements").orderByChild("personnel/"+personnelRef.getKey()).equalTo(true).getRef();
-                        // Run two transactions
-                        onStarClicked(globalAnimateurRef);
-//                        onStarClickedEtab(globalEtablissementRef);
-//                        onStarClicked(userPostRef);
-                    }
-                });
-            }
-        };
+        mAdapter = new PersonnelRecycler(Personnel.class,R.layout.item_personnel,PersonnelViewHolder.class,personnelQuery);
         mRecycler.setAdapter(mAdapter);
     }
-
-    // [START post_stars_transaction]
-    private void onStarClicked(final DatabaseReference personnelRef) {
-        personnelRef.runTransaction(new Transaction.Handler() {
-            @Override
-            public Transaction.Result doTransaction(MutableData mutableData) {
-                Animateur p = mutableData.getValue(Animateur.class);
-                if (p == null) {
-                    return Transaction.success(mutableData);
-                }
-                // Set value and report transaction success
-                mutableData.setValue(p);
-                return Transaction.success(mutableData);
-            }
-
-            @Override
-            public void onComplete(DatabaseError databaseError, boolean b,
-                                   DataSnapshot dataSnapshot) {
-                personnelselectionne = dataSnapshot.getValue(Personnel.class);
-                if (mailpersonnel.getVisibility()==View.INVISIBLE) {
-                    mailpersonnel.setVisibility(View.VISIBLE);
-                    mailpersonnel.setVisibility(View.VISIBLE);
-                }
-                Log.d(TAG, "postTransaction:onComplete:" + dataSnapshot.getValue(Personnel.class).getNom() + " "+ personnelRef.getKey());
-                // Transaction completed
-//                Log.d(TAG, "postTransaction:onComplete:" + databaseError);
-            }
-        });
-    }
-    // [END post_stars_transaction]
-
-    // [START post_stars_transaction]
-//    private void onStarClickedEtab(final DatabaseReference etabRef) {
-//        etabRef.runTransaction(new Transaction.Handler() {
-//            @Override
-//            public Transaction.Result doTransaction(MutableData mutableData) {
-//                Etablissement p = mutableData.getValue(Etablissement.class);
-//                if (p == null) {
-//                    return Transaction.success(mutableData);
-//                }
-//                // Set value and report transaction success
-//                mutableData.setValue(p);
-//                return Transaction.success(mutableData);
-//            }
-//
-//            @Override
-//            public void onComplete(DatabaseError databaseError, boolean b,
-//                                   DataSnapshot dataSnapshot) {
-//                Log.d(TAG, "postTransaction:onComplete:" + dataSnapshot.getValue(Etablissement.class).getNom() + " "+ etabRef.getKey());
-//                // Transaction completed
-////                Log.d(TAG, "postTransaction:onComplete:" + databaseError);
-//            }
-//        });
-//    }
-    // [END post_stars_transaction]
-
 
     @Override
     public void onDestroy() {
@@ -187,6 +116,6 @@ public abstract class PersonnelListFragment extends Fragment {
         }
     }
     public abstract Query getQuery(DatabaseReference databaseReference);
-//    public abstract Query getQueryEtablissement(DatabaseReference databaseReference, String personnelkey);
+    public abstract Query getQuerySearchByNom(DatabaseReference databaseReference, String search);
 
 }

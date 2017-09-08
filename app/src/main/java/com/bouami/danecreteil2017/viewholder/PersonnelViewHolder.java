@@ -28,7 +28,7 @@ public class PersonnelViewHolder extends RecyclerView.ViewHolder {
     public void bindToPersonnel(Personnel personnel,View.OnClickListener starClickListener) {
         mNomView.setText(personnel.getGenre() + " " + personnel.getPrenom() + " " + personnel.getNom());
         mStatutView.setText(personnel.getStatut());
-        mNomView.setOnClickListener(starClickListener);
+        mView.setOnClickListener(starClickListener);
     }
 
     @Override

@@ -71,8 +71,8 @@ public class AnimateursRecycler extends FirebaseRecyclerAdapter<Animateur,Animat
 
     @Override
     protected void populateViewHolder(AnimateurViewHolder viewHolder, final Animateur model, int position) {
-        final DatabaseReference animateurRef = getRef(position);
 
+        final DatabaseReference animateurRef = getRef(position);
         // Set click listener for the whole post view
         final String animateurKey = animateurRef.getKey();
         viewHolder.mPhotoView.setOnClickListener(new View.OnClickListener() {
@@ -130,7 +130,7 @@ public class AnimateursRecycler extends FirebaseRecyclerAdapter<Animateur,Animat
                     mailanimateur.setVisibility(View.VISIBLE);
                     phoneanimateur.setVisibility(View.VISIBLE);
                 }
-                Log.d(TAG, "postTransaction:onComplete:" + dataSnapshot.getValue(Animateur.class).getNom());
+//                Log.d(TAG, "postTransaction:onComplete:" + dataSnapshot.getValue(Animateur.class).getNom());
                 // Transaction completed
 //                Log.d(TAG, "postTransaction:onComplete:" + databaseError);
             }
