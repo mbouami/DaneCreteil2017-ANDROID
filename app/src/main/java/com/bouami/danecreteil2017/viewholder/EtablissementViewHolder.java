@@ -39,6 +39,6 @@ public class EtablissementViewHolder extends RecyclerView.ViewHolder {
         mTelView.setText(etablissement.getTel());
         mEmailView.setText(etablissement.getEmail());
         mVilleView.setText(etablissement.getCp() + " " + etablissement.getVille());
-        mNomView.setOnClickListener(starClickListener);
+        mView.setOnClickListener(starClickListener);
     }
 }
