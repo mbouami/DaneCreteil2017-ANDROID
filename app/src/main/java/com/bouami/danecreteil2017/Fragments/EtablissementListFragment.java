@@ -1,5 +1,6 @@
 package com.bouami.danecreteil2017.Fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -7,8 +8,12 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -48,6 +53,49 @@ public abstract class EtablissementListFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        // Do something that differs the Activity's menu here
+        super.onCreateOptionsMenu(menu, inflater);
+        MenuItem menusearch = menu.findItem(R.id.animateurrechercher);
+        SearchView searchview = (SearchView) menusearch.getActionView();
+//        searchView.setIconifiedByDefault(false);
+        searchview.setOnQueryTextListener(new SearchView.OnQueryTextListener (){
+
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                Log.d(TAG, "setOnQueryTextListener: onQueryTextSubmit " + query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                Log.d(TAG, "setOnQueryTextListener: onQueryTextChange " + newText);
+                Query etablissementsQuery = getQuerySearchByNom(mDatabase,newText);
+                mAdapter = new FirebaseRecyclerAdapter<Etablissement, EtablissementViewHolder>(Etablissement.class, R.layout.item_etablissement,
+                        EtablissementViewHolder.class, etablissementsQuery) {
+                    @Override
+                    protected void populateViewHolder(final EtablissementViewHolder viewHolder, final Etablissement model, final int position) {
+                        final DatabaseReference etablissementRef = getRef(position);
+                        final String etablissementKey = etablissementRef.getKey();
+                        // Bind Post to ViewHolder, setting OnClickListener for the star button
+                        viewHolder.bindToEtablissement(model, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View starView) {
+                                // Need to write to both places the post is stored
+                                DatabaseReference globalEtablissementRef = mDatabase.child("etablissements").child(etablissementKey);
+                                // Run two transactions
+                                onStarClicked(globalEtablissementRef);
+                            }
+                        });
+                    }
+                };
+                mRecycler.setAdapter(mAdapter);
+                return false;
+            }
+        });
     }
 
     @Nullable
@@ -172,7 +220,7 @@ public abstract class EtablissementListFragment extends Fragment {
                 etablissementselectionne = dataSnapshot.getValue(Etablissement.class);
                 if (mailetablissement.getVisibility()==View.INVISIBLE) {
                     mailetablissement.setVisibility(View.VISIBLE);
-                    mailetablissement.setVisibility(View.VISIBLE);
+                    phoneetablissement.setVisibility(View.VISIBLE);
                 }
                 Log.d(TAG, "postTransaction:onComplete:" + databaseError);
             }
@@ -189,4 +237,5 @@ public abstract class EtablissementListFragment extends Fragment {
     }
 
     public abstract Query getQuery(DatabaseReference databaseReference);
+    public abstract Query getQuerySearchByNom(DatabaseReference databaseReference, String search);
 }

@@ -8,8 +8,12 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -51,7 +55,64 @@ public abstract class AnimateurListFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
     }
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        // Do something that differs the Activity's menu here
+        super.onCreateOptionsMenu(menu, inflater);
+        MenuItem menusearch = menu.findItem(R.id.animateurrechercher);
+        SearchView searchview = (SearchView) menusearch.getActionView();
+//        searchView.setIconifiedByDefault(false);
+        searchview.setOnQueryTextListener(new SearchView.OnQueryTextListener (){
+
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                Log.d(TAG, "setOnQueryTextListener: onQueryTextSubmit " + query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                Log.d(TAG, "setOnQueryTextListener: onQueryTextChange " + newText);
+                Query animateursQuery = getQuerySearchByNom(mDatabase,newText);
+                mAdapter = new FirebaseRecyclerAdapter<Animateur, AnimateurViewHolder>(Animateur.class, R.layout.item_animateur,
+                        AnimateurViewHolder.class, animateursQuery) {
+                    @Override
+                    protected void populateViewHolder(final AnimateurViewHolder viewHolder, final Animateur model, final int position) {
+                        final DatabaseReference animateurRef = getRef(position);
+
+                        // Set click listener for the whole post view
+                        final String animateurKey = animateurRef.getKey();
+                        viewHolder.mPhotoView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                // Launch PostDetailActivity
+                                Log.d(TAG, "setOnClickListener:" + animateurKey + model.getNom());
+                                Intent intent = new Intent(getActivity(), EtablissementsParAnimateurActivity.class);
+                                intent.putExtra(EtablissementsParAnimateurActivity.EXTRA_ANIMATEUR_KEY, animateurKey);
+                                startActivity(intent);
+                            }
+                        });
+                        // Bind Post to ViewHolder, setting OnClickListener for the star button
+                        viewHolder.bindToAnimateur(model, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View starView) {
+                                // Need to write to both places the post is stored
+                                DatabaseReference globalAnimateurRef = mDatabase.child("animateurs").child(animateurKey);
+
+                                // Run two transactions
+                                onStarClicked(globalAnimateurRef);
+                            }
+                        });
+                    }
+                };
+                mRecycler.setAdapter(mAdapter);
+                return false;
+            }
+        });
+    }
+
 
     @Nullable
     @Override
@@ -194,4 +255,5 @@ public abstract class AnimateurListFragment extends Fragment {
     }
 
     public abstract Query getQuery(DatabaseReference databaseReference);
+    public abstract Query getQuerySearchByNom(DatabaseReference databaseReference, String search);
 }

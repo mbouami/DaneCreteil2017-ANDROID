@@ -67,24 +67,23 @@ public class MainActivity extends AppCompatActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_animateurs, menu);
 
-
-        MenuItem menusearch = menu.findItem(R.id.animateurrechercher);
-        SearchView searchview = (SearchView) menusearch.getActionView();
-//        searchView.setIconifiedByDefault(false);
-        searchview.setOnQueryTextListener(new SearchView.OnQueryTextListener (){
-
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                Log.d(TAG, "setOnQueryTextListener: onQueryTextSubmit " + query);
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                Log.d(TAG, "setOnQueryTextListener: onQueryTextChange " + newText);
-                return false;
-            }
-        });
+//        MenuItem menusearch = menu.findItem(R.id.animateurrechercher);
+//        SearchView searchview = (SearchView) menusearch.getActionView();
+////        searchView.setIconifiedByDefault(false);
+//        searchview.setOnQueryTextListener(new SearchView.OnQueryTextListener (){
+//
+//            @Override
+//            public boolean onQueryTextSubmit(String query) {
+//                Log.d(TAG, "setOnQueryTextListener: onQueryTextSubmit " + query);
+//                return false;
+//            }
+//
+//            @Override
+//            public boolean onQueryTextChange(String newText) {
+//                Log.d(TAG, "setOnQueryTextListener: onQueryTextChange " + newText);
+//                return false;
+//            }
+//        });
         return true;
     }
 

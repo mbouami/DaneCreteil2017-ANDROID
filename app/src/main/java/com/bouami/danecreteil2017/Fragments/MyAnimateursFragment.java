@@ -16,4 +16,11 @@ public class MyAnimateursFragment extends AnimateurListFragment {
     public Query getQuery(DatabaseReference databaseReference) {
         return databaseReference.child("animateurs");
     }
+
+    @Override
+    public Query getQuerySearchByNom(DatabaseReference databaseReference, String search) {
+        String elementrecherche = search.toUpperCase();
+        return databaseReference.child("animateurs").orderByChild("nom").startAt(elementrecherche).endAt(elementrecherche+"\uf8ff");
+    }
+
 }

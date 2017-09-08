@@ -15,4 +15,10 @@ public class MyEtablissementsFragment extends EtablissementListFragment {
     public Query getQuery(DatabaseReference databaseReference) {
         return databaseReference.child("etablissements");
     }
+
+    @Override
+    public Query getQuerySearchByNom(DatabaseReference databaseReference, String search) {
+        String elementrecherche = search.toUpperCase();
+        return databaseReference.child("etablissements").orderByChild("nom").startAt(elementrecherche).endAt(elementrecherche+"\uf8ff");
+    }
 }
