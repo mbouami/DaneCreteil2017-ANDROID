@@ -3,7 +3,6 @@ package com.bouami.danecreteil2017.Fragments;
 import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -41,13 +40,53 @@ public class AnimateursRecycler extends FirebaseRecyclerAdapter<Animateur,Animat
     private FloatingActionButton mailanimateur;
     private FloatingActionButton phoneanimateur;
 
+//    public List<Animateur> ITEMS= new ArrayList<Animateur>();
+
     public AnimateursRecycler(Class<Animateur> modelClass, int modelLayout, Class<AnimateurViewHolder> viewHolderClass, Query ref) {
         super(modelClass, modelLayout, viewHolderClass, ref);
         mDatabase = FirebaseDatabase.getInstance().getReference();
+//        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                for (DataSnapshot animateur: dataSnapshot.getChildren()) {
+//                    // TODO: handle the post
+//                    Animateur anim = animateur.getValue(Animateur.class);
+//                    anim.setId(animateur.getKey());
+//                    ITEMS.add(anim);
+//                    Log.w(TAG, "Nom:Animateur : " + anim.getNom());
+//                }
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//
+//            }
+//        });
+    }
+
+//    public List<Animateur> getListeAnimateurs() {
+//        return ITEMS;
+//    }
+
+    @Override
+    public int getItemCount() {
+        return super.getItemCount();
+    }
+
+    @Override
+    public Animateur getItem(int position) {
+        return super.getItem(position);
+    }
+
+    @Override
+    public DatabaseReference getRef(int position) {
+        return super.getRef(position);
     }
 
     @Override
     public AnimateurViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
         mailanimateur = (FloatingActionButton) parent.getRootView().findViewById(R.id.mailanimateur);
         mailanimateur.setVisibility(View.INVISIBLE);
         mailanimateur.setOnClickListener(new View.OnClickListener() {
@@ -75,14 +114,14 @@ public class AnimateursRecycler extends FirebaseRecyclerAdapter<Animateur,Animat
         final DatabaseReference animateurRef = getRef(position);
         // Set click listener for the whole post view
         final String animateurKey = animateurRef.getKey();
-        viewHolder.mPhotoView.setOnClickListener(new View.OnClickListener() {
+        viewHolder.mListeEtabsView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Launch PostDetailActivity
-                Log.d(TAG, "setOnClickListener:" + animateurKey + model.getNom());
-//                Intent intent = new Intent(getActivity(), EtablissementsParAnimateurActivity.class);
-//                intent.putExtra(EtablissementsParAnimateurActivity.EXTRA_ANIMATEUR_KEY, animateurKey);
-//                startActivity(intent);
+//                Log.d(TAG, "setOnClickListener:" + animateurKey + model.getNom());
+                Intent intent = new Intent(v.getContext(), EtablissementsParAnimateurActivity.class);
+                intent.putExtra(EtablissementsParAnimateurActivity.EXTRA_ANIMATEUR_KEY, animateurKey);
+                v.getContext().startActivity(intent);
             }
         });
         // Bind Post to ViewHolder, setting OnClickListener for the star button
@@ -91,7 +130,6 @@ public class AnimateursRecycler extends FirebaseRecyclerAdapter<Animateur,Animat
             public void onClick(View starView) {
                 // Need to write to both places the post is stored
                 DatabaseReference globalAnimateurRef = mDatabase.child("animateurs").child(animateurKey);
-
                 // Run two transactions
                 onStarClicked(globalAnimateurRef);
             }

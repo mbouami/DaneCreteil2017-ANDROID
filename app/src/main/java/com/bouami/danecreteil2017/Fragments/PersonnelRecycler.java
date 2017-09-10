@@ -1,13 +1,16 @@
 package com.bouami.danecreteil2017.Fragments;
 
+import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bouami.danecreteil2017.EtablissementsParAnimateurActivity;
 import com.bouami.danecreteil2017.Models.Animateur;
 import com.bouami.danecreteil2017.Models.Personnel;
+import com.bouami.danecreteil2017.PersonnelParEtablissementActivity;
 import com.bouami.danecreteil2017.R;
 import com.bouami.danecreteil2017.viewholder.PersonnelViewHolder;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -74,7 +77,16 @@ public class PersonnelRecycler extends FirebaseRecyclerAdapter<Personnel,Personn
 
         // Set click listener for the whole post view
         final String personnelKey = personnelRef.getKey();
-
+//        viewHolder.mListePersonnelView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                // Launch PostDetailActivity
+////                Log.d(TAG, "setOnClickListener:" + animateurKey + model.getNom());
+//                Intent intent = new Intent(v.getContext(), PersonnelParEtablissementActivity.class);
+//                intent.putExtra(PersonnelParEtablissementActivity.EXTRA_ETABLISSEMENT_KEY, personnelKey);
+//                v.getContext().startActivity(intent);
+//            }
+//        });
         // Bind Post to ViewHolder, setting OnClickListener for the star button
         viewHolder.bindToPersonnel(model, new View.OnClickListener() {
             @Override

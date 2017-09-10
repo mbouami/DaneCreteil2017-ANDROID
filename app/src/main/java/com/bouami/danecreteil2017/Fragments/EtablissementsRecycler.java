@@ -1,5 +1,6 @@
-package com.bouami.danecreteil2017;
+package com.bouami.danecreteil2017.Fragments;
 
+import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bouami.danecreteil2017.Models.Etablissement;
+import com.bouami.danecreteil2017.PersonnelParEtablissementActivity;
+import com.bouami.danecreteil2017.R;
 import com.bouami.danecreteil2017.viewholder.EtablissementViewHolder;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.database.DataSnapshot;
@@ -75,19 +78,15 @@ public class EtablissementsRecycler extends FirebaseRecyclerAdapter<Etablissemen
 
         // Set click listener for the whole post view
         final String etablissementKey = etablissementRef.getKey();
-//                viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        // Launch PostDetailActivity
-///*                        Intent intent = new Intent(getActivity(), PostDetailActivity.class);
-//                        intent.putExtra(PostDetailActivity.EXTRA_POST_KEY, postKey);
-//                        startActivity(intent);*/
-//                        Log.d(TAG, "setOnClickListener:" + etablissementKey);
-//                        etablissementselectionne = model;
-//                        mailetablissement.setVisibility(View.VISIBLE);
-//                        phoneetablissement.setVisibility(View.VISIBLE);
-//                    }
-//                });
+                viewHolder.mListePersonnelView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // Launch PostDetailActivity
+                        Intent intent = new Intent(v.getContext(), PersonnelParEtablissementActivity.class);
+                        intent.putExtra(PersonnelParEtablissementActivity.EXTRA_ETABLISSEMENT_KEY, etablissementKey);
+                        v.getContext().startActivity(intent);
+                    }
+                });
 
         // Determine if the current user has liked this post and set UI accordingly
 /*                if (model.stars.containsKey(getUid())) {

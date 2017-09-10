@@ -12,8 +12,14 @@ import com.bouami.danecreteil2017.Fragments.AnimateursFragment.OnListFragmentInt
 import com.bouami.danecreteil2017.Fragments.dummy.DummyContent.DummyItem;
 import com.bouami.danecreteil2017.Models.Animateur;
 import com.bouami.danecreteil2017.Models.AnimateurModel;
+import com.bouami.danecreteil2017.Models.Etablissement;
 import com.bouami.danecreteil2017.R;
 import com.bouami.danecreteil2017.viewholder.AnimateurViewHolder;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
 

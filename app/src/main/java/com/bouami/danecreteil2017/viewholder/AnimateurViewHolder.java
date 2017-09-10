@@ -3,6 +3,7 @@ package com.bouami.danecreteil2017.viewholder;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bouami.danecreteil2017.R;
@@ -17,6 +18,8 @@ public class AnimateurViewHolder extends RecyclerView.ViewHolder {
     public final TextView mTelView;
     public final TextView mEmailView;
     public final ImageView mPhotoView;
+    public final ImageView mListeEtabsView;
+    public final LinearLayout mZoneReferenceAnimateur;
     public Animateur mItem;
     public final View mView;
 
@@ -26,6 +29,8 @@ public class AnimateurViewHolder extends RecyclerView.ViewHolder {
         mTelView = (TextView) itemView.findViewById(R.id.tel);
         mEmailView = (TextView) itemView.findViewById(R.id.email);
         mPhotoView = (ImageView) itemView.findViewById(R.id.photo);
+        mListeEtabsView = (ImageView) itemView.findViewById(R.id.detail);
+        mZoneReferenceAnimateur = (LinearLayout) itemView.findViewById(R.id.zone_reference_animateur);
         mView = itemView;
     }
 
@@ -33,7 +38,7 @@ public class AnimateurViewHolder extends RecyclerView.ViewHolder {
         mNomView.setText(animateur.getGenre() + " " + animateur.getPrenom() + " " + animateur.getNom());
         mTelView.setText(animateur.getTel());
         mEmailView.setText(animateur.getEmail());
-        mView.setOnClickListener(starClickListener);
+        mZoneReferenceAnimateur.setOnClickListener(starClickListener);
     }
 
     @Override

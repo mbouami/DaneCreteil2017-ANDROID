@@ -31,6 +31,8 @@ import com.google.firebase.database.MutableData;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.Transaction;
 
+import java.util.List;
+
 /**
  * Created by mbouami on 02/09/2017.
  */
@@ -78,6 +80,7 @@ public abstract class AnimateurListFragment extends Fragment {
                 Query animateurssearchQuery = getQuerySearchByNom(mDatabase,newText);
                 mAdapter = new AnimateursRecycler(Animateur.class,R.layout.item_animateur,AnimateurViewHolder.class,animateurssearchQuery);
                 mRecycler.setAdapter(mAdapter);
+                Log.d(TAG, "mAdapter: size " + mAdapter.getItemCount());
                 return false;
             }
         });
@@ -120,4 +123,5 @@ public abstract class AnimateurListFragment extends Fragment {
 
     public abstract Query getQuery(DatabaseReference databaseReference);
     public abstract Query getQuerySearchByNom(DatabaseReference databaseReference, String search);
+    public abstract List<Animateur> getListeAnimateurs(DatabaseReference databaseReference);
 }
