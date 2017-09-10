@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
             private final String[] mFragmentNames = new String[] {
                     getString(R.string.heading_my_animateurs),
                     getString(R.string.heading_my_etablissements),
-                    "Le Personnel Administratif"
+                    getString(R.string.heading_my_personnel)
             };
             @Override
             public Fragment getItem(int position) {

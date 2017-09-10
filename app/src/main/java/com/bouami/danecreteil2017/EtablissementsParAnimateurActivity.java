@@ -2,9 +2,11 @@ package com.bouami.danecreteil2017;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -29,7 +31,7 @@ import java.util.List;
  * Created by mbouami on 06/09/2017.
  */
 
-public class EtablissementsParAnimateurActivity extends AppCompatActivity implements View.OnClickListener {
+public class EtablissementsParAnimateurActivity extends AppCompatActivity {
 
     private static final String TAG = "EtablissementsParAnimateurActivity";
     public static final String EXTRA_ANIMATEUR_KEY = "animateur_key";
@@ -44,15 +46,16 @@ public class EtablissementsParAnimateurActivity extends AppCompatActivity implem
     private TextView telanimateur;
     private TextView mailanimateur;
 
-    @Override
-    public void onClick(View view) {
-
-    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_etabs_par_animateur);
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(myToolbar);
+        ActionBar ab = getSupportActionBar();
+        ab.setDisplayHomeAsUpEnabled(true);
+
         mDatabase = FirebaseDatabase.getInstance().getReference();
         nomanimateur = (TextView) this.findViewById(R.id.nom);
         telanimateur = (TextView) this.findViewById(R.id.tel);
@@ -64,9 +67,6 @@ public class EtablissementsParAnimateurActivity extends AppCompatActivity implem
         if (mAnimateurKey == null) {
             throw new IllegalArgumentException("Must pass EXTRA_ANIMATEUR_KEY");
         }
-//        createListeEtablissements(mAnimateurKey);
-//        List<Etablissement> listeetabs = getListeAnimateurs(mDatabase,mAnimateurKey);
-//        Log.d(TAG, "onCreate:" + mAnimateurKey);
         Query etabsparanimateurQuery = getQueryEtabsParAnim(mDatabase,mAnimateurKey);
         mAdapter = new EtablissementsRecycler(Etablissement.class,R.layout.item_etablissement,EtablissementViewHolder.class,etabsparanimateurQuery);
         recyclerView.setAdapter(mAdapter);
@@ -107,54 +107,6 @@ public class EtablissementsParAnimateurActivity extends AppCompatActivity implem
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_animateurs, menu);
-        return super.onCreateOptionsMenu(menu);
+        return true;
     }
-
-//    public static void createListeEtablissements(String idanim) {
-//        postListener = new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                ITEMS.clear();
-//                for (DataSnapshot etablissement: dataSnapshot.getChildren()) {
-//                    // TODO: handle the post
-//                    Etablissement etab = etablissement.getValue(Etablissement.class);
-//                    addItem(etab);
-//                    Log.w(TAG, "Etablissement item : "+ String.valueOf(ITEMS.size())+ "---" +etab.getNom()+ " "+ etab.getVille());
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//                // Getting Post failed, log a message
-//                Log.w(TAG, "loadPost:onCancelled", databaseError.toException());
-//            }
-//        };
-//        mDatabase.child("etablissements").orderByChild("animateurs/"+idanim).equalTo(true).addListenerForSingleValueEvent(postListener);
-//    }
-
-//    private static void addItem(Etablissement item) {
-//        ITEMS.add(item);
-////        Log.w(TAG, "Etablissement item : "+ String.valueOf(ITEMS.size())+ "---" +item.getNom()+ " "+ item.getVille());
-//    }
-
-//    public List<Etablissement> getListeAnimateurs(DatabaseReference databaseReference,String idanim) {
-//        final List<Etablissement> ITEMS= new ArrayList<Etablissement>();
-//        databaseReference.child("etablissements").orderByChild("animateurs/"+idanim).equalTo(true).addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                for (DataSnapshot etablissement: dataSnapshot.getChildren()) {
-//                    // TODO: handle the post
-//                    Etablissement etab = etablissement.getValue(Etablissement.class);
-//                    ITEMS.add(etab);
-//                    Log.w(TAG, "Etablissement item : "+ String.valueOf(ITEMS.size())+ "---" +etab.getNom()+ " "+ etab.getVille());
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//
-//            }
-//        });
-//        return ITEMS;
-//    }
 }
