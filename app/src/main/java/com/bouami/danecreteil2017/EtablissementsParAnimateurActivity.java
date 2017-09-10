@@ -67,7 +67,6 @@ public class EtablissementsParAnimateurActivity extends AppCompatActivity implem
 //        createListeEtablissements(mAnimateurKey);
 //        List<Etablissement> listeetabs = getListeAnimateurs(mDatabase,mAnimateurKey);
 //        Log.d(TAG, "onCreate:" + mAnimateurKey);
-
         Query etabsparanimateurQuery = getQueryEtabsParAnim(mDatabase,mAnimateurKey);
         mAdapter = new EtablissementsRecycler(Etablissement.class,R.layout.item_etablissement,EtablissementViewHolder.class,etabsparanimateurQuery);
         recyclerView.setAdapter(mAdapter);

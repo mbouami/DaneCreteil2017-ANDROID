@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.TextView;
 
+import com.bouami.danecreteil2017.Fragments.PersonnelRecycler;
 import com.bouami.danecreteil2017.Models.Etablissement;
 import com.bouami.danecreteil2017.Models.Personnel;
 import com.bouami.danecreteil2017.viewholder.PersonnelViewHolder;
@@ -62,10 +63,13 @@ public class PersonnelParEtablissementActivity extends AppCompatActivity {
         if (mEtablissementKey == null) {
             throw new IllegalArgumentException("Must pass EXTRA_ETABLISSEMENT_KEY");
         }
+        Query personnelparetabQuery = getQueryPersonnelParEtab(mDatabase,mEtablissementKey);
+        mAdapter = new PersonnelRecycler(Personnel.class,R.layout.item_personnel,PersonnelViewHolder.class,personnelparetabQuery);
+        recyclerView.setAdapter(mAdapter);
     }
 
     public Query getQueryPersonnelParEtab(DatabaseReference databaseReference, String etabkey) {
-        return databaseReference.child("etablissements").orderByChild("animateurs/"+etabkey).equalTo(true);
+        return databaseReference.child("personnel").orderByChild("etablissement/"+etabkey).equalTo(true);
     }
 
     @Override

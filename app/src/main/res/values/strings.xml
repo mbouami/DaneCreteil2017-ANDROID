@@ -7,4 +7,5 @@
     <string name="heading_my_animateurs">Les Animateurs</string>
     <string name="heading_my_etablissements">Les Etablissements</string>
     <string name="menu_logout">Quitter</string>
+    <string name="menu_reinitialisation">Réinitialiser les données</string>
 </resources>

@@ -11,6 +11,11 @@
             android:title="Rechercher un animateur"
             app:showAsAction="ifRoom|collapseActionView"></item>
         <item
+            android:id="@+id/action_reinitialisation"
+            android:title="@string/menu_reinitialisation"
+            android:visible="true"
+            app:showAsAction="never" />
+        <item
             android:id="@+id/action_logout"
             android:title="@string/menu_logout"
             android:visible="true"

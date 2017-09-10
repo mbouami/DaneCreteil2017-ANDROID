@@ -101,6 +101,9 @@ public class MainActivity extends AppCompatActivity {
             case R.id.animateurrechercher :
 //                Log.d(TAG, "AccueilActivity: animateurrechercher activé " + ((TabLayout) findViewById(R.id.tabs)).getSelectedTabPosition());
                 return true;
+            case R.id.action_reinitialisation :
+
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
