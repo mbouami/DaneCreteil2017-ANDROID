@@ -1,6 +1,7 @@
 package com.bouami.danecreteil2017.Fragments;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.view.View;
@@ -92,8 +93,9 @@ public class AnimateursRecycler extends FirebaseRecyclerAdapter<Animateur,Animat
         mailanimateur.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Prévoire une action pour envoyer un mail à " + animateurselectionne.getEmail(), Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+//                Snackbar.make(view, "Prévoire une action pour envoyer un mail à " + animateurselectionne.getEmail(), Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+                view.getContext().startActivity(createMailIntent(animateurselectionne.getEmail()));
             }
         });
         phoneanimateur = (FloatingActionButton) parent.getRootView().findViewById(R.id.phoneanimateur);
@@ -101,8 +103,10 @@ public class AnimateursRecycler extends FirebaseRecyclerAdapter<Animateur,Animat
         phoneanimateur.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Prévoire une action pour téléphoner à " + animateurselectionne.getNom(), Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+//                Snackbar.make(view, "Prévoire une action pour téléphoner à " + animateurselectionne.getNom(), Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+                view.getContext().startActivity(createPhoneIntent(animateurselectionne.getTel()));
+
             }
         });
         return super.onCreateViewHolder(parent, viewType);
@@ -134,6 +138,41 @@ public class AnimateursRecycler extends FirebaseRecyclerAdapter<Animateur,Animat
                 onStarClicked(globalAnimateurRef);
             }
         });
+    }
+
+    private Intent createShareIntent(String mNomEtabcast, String mEtabSharecast) {
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+        shareIntent.setType("text/plain");
+        shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Carte visite : "+mNomEtabcast);
+        shareIntent.putExtra(Intent.EXTRA_TEXT, mEtabSharecast);
+        return shareIntent;
+    }
+
+    private Intent createPhoneIntent(String mTelEtabcast) {
+        Intent shareIntent = new Intent(Intent.ACTION_DIAL);
+        shareIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+        shareIntent.setData(Uri.parse("tel:"+mTelEtabcast));
+        return shareIntent;
+    }
+
+    private Intent createMailIntent(String mMailEtabcast) {
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+        shareIntent.setType("text/plain");
+        shareIntent.putExtra(Intent.EXTRA_TEXT, "");
+        shareIntent.putExtra(Intent.EXTRA_EMAIL, new String[] { mMailEtabcast });
+        shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Demande de rendez-vous");
+        return shareIntent;
+    }
+
+    private Intent createMapIntent(String mAdresseEtabcast) {
+        Uri geoLocation = Uri.parse("geo:0,0?").buildUpon()
+                .appendQueryParameter("q", mAdresseEtabcast)
+                .build();
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(geoLocation);
+        return intent;
     }
 
     // [START post_stars_transaction]
