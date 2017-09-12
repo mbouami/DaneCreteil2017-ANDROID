@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bouami.danecreteil2017.Models.Etablissement;
+import com.bouami.danecreteil2017.NewReferentActivity;
 import com.bouami.danecreteil2017.PersonnelParEtablissementActivity;
 import com.bouami.danecreteil2017.R;
 import com.bouami.danecreteil2017.viewholder.EtablissementViewHolder;
@@ -43,6 +44,7 @@ public class EtablissementsRecycler extends FirebaseRecyclerAdapter<Etablissemen
     private DatabaseReference mDatabase;
     private FloatingActionButton mailetablissement;
     private FloatingActionButton phoneetablissement;
+    private FloatingActionButton addreferentetablissement;
     private Etablissement etablissementselectionne;
 
     public EtablissementsRecycler(Class<Etablissement> modelClass, int modelLayout, Class<EtablissementViewHolder> viewHolderClass, Query ref) {
@@ -66,6 +68,16 @@ public class EtablissementsRecycler extends FirebaseRecyclerAdapter<Etablissemen
             @Override
             public void onClick(View view) {
                 view.getContext().startActivity(createPhoneIntent(etablissementselectionne.getTel()));
+            }
+        });
+        addreferentetablissement = (FloatingActionButton) parent.getRootView().findViewById(R.id.addreferent);
+        addreferentetablissement.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                view.getContext().startActivity(createPhoneIntent(etablissementselectionne.getTel()));
+                Intent intent = new Intent(view.getContext(), NewReferentActivity.class);
+                intent.putExtra(NewReferentActivity.EXTRA_ETABLISSEMENT_KEY, "0931192R");
+                view.getContext().startActivity(intent);
             }
         });
         return super.onCreateViewHolder(parent, viewType);

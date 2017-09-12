@@ -9,4 +9,5 @@
     <string name="heading_my_personnel">Personnel</string>
     <string name="menu_logout">Quitter</string>
     <string name="menu_reinitialisation">Réinitialiser les données</string>
+    <string name="title_activity_new_referent">NewReferentActivity</string>
 </resources>

@@ -4,42 +4,35 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by mbouami on 02/09/2017.
+ * Created by mbouami on 11/09/2017.
  */
 
-public class Personnel {
-
+public class Referent {
     public String id;
     public String genre;
     public String nom;
     public String prenom;
-    public String email;
     public String tel;
-    public String statut;
+    public String email;
 
-    public Personnel() {
-
-    }
-
-    public Personnel(String id, String genre, String nom, String prenom, String tel, String email, String statut) {
+    public Referent(String id, String genre, String nom, String prenom, String tel, String email) {
         this.id = id;
         this.genre = genre;
         this.nom = nom;
         this.prenom = prenom;
         this.tel = tel;
         this.email = email;
-        this.statut = statut;
     }
 
-    public Personnel(String genre, String nom, String prenom,String tel, String email, String statut) {
+    public Referent(String genre, String nom, String prenom, String tel, String email) {
         this.genre = genre;
         this.nom = nom;
         this.prenom = prenom;
         this.tel = tel;
         this.email = email;
-        this.statut = statut;
     }
 
+    // [START post_to_map]
     public Map<String, Object> toMap(String etabkey) {
         HashMap<String, Object> result = new HashMap<>();
         HashMap<String, Object> etab = new HashMap<>();
@@ -49,9 +42,13 @@ public class Personnel {
         result.put("tel", tel);
         result.put("email", email);
         etab.put(etabkey,true);
-        result.put("etablissement",etab);
+        result.put("etablissements",etab);
+
         return result;
     }
+    // [END post_to_map]
+
+
 
     public String getId() {
         return id;
@@ -85,27 +82,19 @@ public class Personnel {
         this.prenom = prenom;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getStatut() {
-        return statut;
-    }
-
-    public void setStatut(String statut) {
-        this.statut = statut;
-    }
-
     public String getTel() {
         return tel;
     }
 
     public void setTel(String tel) {
         this.tel = tel;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }
